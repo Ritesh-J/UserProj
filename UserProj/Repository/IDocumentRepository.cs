@@ -5,7 +5,7 @@ namespace UserProj.Repository
 {
     public interface IDocumentRepository
     {
-        Document CreateDocument(DocumentRequestDto requestDto);
+        Document? CreateDocument(DocumentRequestDto requestDto);
         DocumentResponseDto? GetDoccumentById(int Id);
         List<DocumentResponseDto>? GetAllDocument();
         Document? UpdateDocument(int Id, DocumentRequestDto requestDto);

@@ -1,4 +1,5 @@
-﻿using UserProj.Data;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using UserProj.Data;
 using UserProj.Models.Domain;
 using UserProj.Models.DTO;
 
@@ -12,9 +13,13 @@ namespace UserProj.Repository
         {
             this.dbContext = dbContext;
         }
-        public Document CreateDocument(DocumentRequestDto requestDto)
-        { 
-
+        public Document? CreateDocument(DocumentRequestDto requestDto)
+        {
+            var user = dbContext.Users.Find(requestDto.UserId);
+            var project=dbContext.Projects.Find(requestDto.ProjectId);
+            var existngDocument = dbContext.Documents.FirstOrDefault(d => d.UserId == requestDto.UserId);
+            if (existngDocument != null) { throw new BadHttpRequestException("Document with user  already exists"); }
+            if (user == null || project==null) { return null; }
             var document = new Document
             {
                 Name = requestDto.Name,
@@ -22,6 +27,8 @@ namespace UserProj.Repository
                 ProjectId = requestDto.ProjectId,
             };
             dbContext.Add(document);
+            dbContext.SaveChanges();
+            user.DocumentId=document.Id;
             dbContext.SaveChanges();
             return document;
         }

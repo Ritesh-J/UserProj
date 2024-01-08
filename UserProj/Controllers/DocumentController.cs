@@ -18,10 +18,19 @@ namespace UserProj.Controllers
         }
 
         [HttpPost]
+        [Route("Create_Document")]
         public IActionResult CreateDoc([FromBody] DocumentRequestDto requestDto)
         {
-            var doc = documentRepository.CreateDocument(requestDto);
-            return Ok(doc);
+            try
+            {
+                var doc = documentRepository.CreateDocument(requestDto);
+                if (doc == null) { return NotFound("User or Project Null"); }
+                return Ok(doc);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]

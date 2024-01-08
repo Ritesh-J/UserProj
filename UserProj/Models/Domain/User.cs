@@ -18,6 +18,7 @@ namespace UserProj.Models.Domain
         public string? PhoneNumber { get; set; }
         [ForeignKey("DocumentId")]
         public int? DocumentId { get; set; }
+        [JsonIgnore]
         public Document? Document { get; set; }
         [JsonIgnore]
         public ICollection<UserProject>? UserProjects { get; set; } = new List<UserProject>();

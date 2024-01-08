@@ -11,6 +11,7 @@ namespace UserProj.Models.Domain
         public string Name { get; set; }
         [JsonIgnore]
         public ICollection<UserProject>? UserProjects { get; set; }=new List<UserProject>();
+        [JsonIgnore]
         public ICollection<Document>? Documents { get; set; } = new List<Document>();
     }
 }
